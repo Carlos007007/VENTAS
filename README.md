@@ -1,0 +1,2 @@
+# VENTAS
+SISTEMA de VENTAS BASICO desarrollado en PHP, MySQL, MVC, AJAX &amp; BULMA
