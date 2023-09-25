@@ -1,0 +1,47 @@
+=== ENGLISH ===
+1 - Copy or move the VENTAS folder to your local or remote server
+
+2 - Create a database in MYSQL with the name of your preference, select it 
+and import the system database with phpmyadmin or another MYSQL graphical manager 
+that you use, the database is in the DB folder
+
+3 - Open the server.php file with your favorite code editor and configure only 
+the server data. The file is in the "config" folder
+
+4 - Open the app.php file with your favorite code editor, then configure it according 
+to your company and server. The file is in the "config" folder
+
+APP_NAME -> The name of your company or organization
+
+APP_URL -> The URL of your local (http://localhost/VENTAS/) or remote server (https://mydomain/VENTAS/). 
+Important do not forget to place in the URL if it is http or https
+
+5 - Default user: Administrador
+    Password: Administrador
+
+
+
+
+
+
+=== ESPAÑOL ===
+
+1 - Copie o mueva la carpeta VENTAS a su servidor local o remoto
+
+2 - Cree una base de datos en MYSQL con el nombre de su preferencia, 
+selecciónela e importe la base de datos del sistema con phpmyadmin u otro gestor grafico de MYSQL 
+que utilice, la base de datos se encuentra en la carpeta DB
+
+3 - Abra el archivo server.php con su editor de código favorito y configure solamente los datos 
+del servidor. El archivo se encuentra en la carpeta “config”
+
+4 - Abra el archivo app.php con su editor de código favorito, a continuación configúrelo según 
+su empresa y servidor. El archivo se encuentra en la carpeta “config”
+
+APP_NAME -> El nombre de su empresa u organización
+
+APP_URL -> La dirección URL de su servidor local (http://localhost/VENTAS/) o remoto (https://midominio/VENTAS/). 
+Importante no olvide colocar en la URL si es http o https 
+
+5 - Usuario por defecto: Administrador
+    Clave: Administrador
