@@ -333,6 +333,11 @@
 					"campo_valor"=>$modelo
 				],
 				[
+					"campo_nombre"=>"producto_estado",
+					"campo_marcador"=>":Estado",
+					"campo_valor"=>"Habilitado"
+				],
+				[
 					"campo_nombre"=>"producto_foto",
 					"campo_marcador"=>":Foto",
 					"campo_valor"=>$foto
