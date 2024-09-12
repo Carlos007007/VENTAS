@@ -1,5 +1,5 @@
 <div class="notification is-success is-light pb-6 pt-6" style="font-size: 20px;">
-	La versión más actualizada de este sistema está disponible para los <a href="https://www.youtube.com/channel/UCRMJ0vxtnHh_UAq1Yx9BYWQ/join" target="_blank">MIEMBROS del canal de YouTube</a>, puede hacerse miembro <a href="https://www.youtube.com/channel/UCRMJ0vxtnHh_UAq1Yx9BYWQ/join" target="_blank">haciendo clic acá</a> o probar la DEMO de la versión actualizada <a href="http://systems.designlopers.com/VENTAS/" target="_blank">haciendo clic aquí</a>.
+	La versión más actualizada de este sistema está disponible para los <a href="https://www.youtube.com/channel/UCRMJ0vxtnHh_UAq1Yx9BYWQ/join" target="_blank">MIEMBROS del canal de YouTube (Membresía "Programador Semi Senior" o superior)</a>, puede hacerse miembro <a href="https://www.youtube.com/channel/UCRMJ0vxtnHh_UAq1Yx9BYWQ/join" target="_blank">haciendo clic acá</a> o probar la DEMO de la versión actualizada <a href="http://systems.designlopers.com/VENTAS/" target="_blank">haciendo clic aquí</a>.
 	<br><br>
 	** NOVEDADES **<br>
 	- Se agrego reporte general de ventas<br>
