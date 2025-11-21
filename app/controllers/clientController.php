@@ -12,7 +12,7 @@
 		    $tipo_documento=$this->limpiarCadena($_POST['cliente_tipo_documento']);
 		    $numero_documento=$this->limpiarCadena($_POST['cliente_numero_documento']);
 		    $nombre=$this->limpiarCadena($_POST['cliente_nombre']);
-		    $apellido=$this->limpiarCadena($_POST['cliente_apellido']);
+		    $apellido=$this->limpiarCadena($_POST['cliente_apellido']); // ahora pais
 
 		    $provincia=$this->limpiarCadena($_POST['cliente_provincia']);
 		    $ciudad=$this->limpiarCadena($_POST['cliente_ciudad']);
@@ -45,29 +45,29 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$nombre)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,100}",$nombre)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
-					"texto"=>"El NOMBRE no coincide con el formato solicitado",
+					"texto"=>"El NOMBRE o RAZ&Oacute;N SOCIAL no coincide con el formato solicitado",
 					"icono"=>"error"
 				];
 				return json_encode($alerta);
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$apellido)){
+		    if($this->verificarDatos("[0-9]{1,5}",$apellido)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
-					"texto"=>"El APELLIDO no coincide con el formato solicitado",
+					"texto"=>"El PAIS no coincide con el formato solicitado",
 					"icono"=>"error"
 				];
 				return json_encode($alerta);
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,30}",$provincia)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ\ ]{4,30}",$provincia)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -78,7 +78,7 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,30}",$ciudad)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ\ ]{4,30}",$ciudad)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -89,7 +89,7 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ().,#\- ]{4,70}",$direccion)){
+		    if($this->verificarDatos("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\.\,\-\#\(\)]{4,150}",$direccion)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -101,7 +101,7 @@
 		    }
 
 		    if($telefono!=""){
-		    	if($this->verificarDatos("[0-9()+]{8,20}",$telefono)){
+		    	if($this->verificarDatos("[0-9\(\)\+\s]{8,20}",$telefono)){
 			    	$alerta=[
 						"tipo"=>"simple",
 						"titulo"=>"Ocurrió un error inesperado",
@@ -183,7 +183,7 @@
 				],
 				[
 					"campo_nombre"=>"cliente_apellido",
-					"campo_marcador"=>":Apellido",
+					"campo_marcador"=>":Pais",
 					"campo_valor"=>$apellido
 				],
 				[
@@ -279,7 +279,8 @@
 		                <tr>
 		                    <th class="has-text-centered">#</th>
 		                    <th class="has-text-centered">Documento</th>
-		                    <th class="has-text-centered">Nombre</th>
+		                    <th class="has-text-centered">Nombre o Raz&oacute;n</th>
+		                    <th class="has-text-centered">Pa&iacute;s</th>
 		                    <th class="has-text-centered">Email</th>
 		                    <th class="has-text-centered">Actualizar</th>
 		                    <th class="has-text-centered">Eliminar</th>
@@ -291,12 +292,26 @@
 		    if($total>=1 && $pagina<=$numeroPaginas){
 				$contador=$inicio+1;
 				$pag_inicio=$inicio+1;
+				$dbPaisesPrint= array();
 				foreach($datos as $rows){
+					$tmpPais= $rows['cliente_apellido'];
+
+					if( !isset($dbPaisesPrint[$tmpPais]) ) { // no existe
+						$defaultPais=$this->seleccionarDatos("Unico","pais", "ID", $tmpPais); // consultamos
+
+						if($defaultPais->rowCount()==1){ // fetch
+							$defaultPais=$defaultPais->fetch();
+						}
+
+						$dbPaisesPrint[$tmpPais]= $defaultPais; // agregamos
+					}
+
 					$tabla.='
 						<tr class="has-text-centered" >
 							<td>'.$contador.'</td>
 							<td>'.$rows['cliente_tipo_documento'].': '.$rows['cliente_numero_documento'].'</td>
-							<td>'.$rows['cliente_nombre'].' '.$rows['cliente_apellido'].'</td>
+							<td>'.$rows['cliente_nombre'].'</td>
+							<td>'.$dbPaisesPrint[$tmpPais]["nombre"].'</td>
 							<td>'.$rows['cliente_email'].'</td>
 			                <td>
 			                    <a href="'.APP_URL.'clientUpdate/'.$rows['cliente_id'].'/" class="button is-success is-rounded is-small">
@@ -405,7 +420,7 @@
 		        $alerta=[
 					"tipo"=>"recargar",
 					"titulo"=>"Cliente eliminado",
-					"texto"=>"El cliente ".$datos['cliente_nombre']." ".$datos['cliente_apellido']." ha sido eliminado del sistema correctamente",
+					"texto"=>"El cliente ".$datos['cliente_nombre']." ha sido eliminado del sistema correctamente",
 					"icono"=>"success"
 				];
 
@@ -413,7 +428,7 @@
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
-					"texto"=>"No hemos podido eliminar el cliente ".$datos['cliente_nombre']." ".$datos['cliente_apellido']." del sistema, por favor intente nuevamente",
+					"texto"=>"No hemos podido eliminar el cliente ".$datos['cliente_nombre']." del sistema, por favor intente nuevamente",
 					"icono"=>"error"
 				];
 		    }
@@ -446,7 +461,7 @@
 		    $tipo_documento=$this->limpiarCadena($_POST['cliente_tipo_documento']);
 		    $numero_documento=$this->limpiarCadena($_POST['cliente_numero_documento']);
 		    $nombre=$this->limpiarCadena($_POST['cliente_nombre']);
-		    $apellido=$this->limpiarCadena($_POST['cliente_apellido']);
+		    $apellido=$this->limpiarCadena($_POST['cliente_apellido']); // ahora pais
 
 		    $provincia=$this->limpiarCadena($_POST['cliente_provincia']);
 		    $ciudad=$this->limpiarCadena($_POST['cliente_ciudad']);
@@ -479,29 +494,29 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$nombre)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ\ ]{3,100}",$nombre)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
-					"texto"=>"El NOMBRE no coincide con el formato solicitado",
+					"texto"=>"El NOMBRE o RAZ&Oacute;N SOCIAL no coincide con el formato solicitado",
 					"icono"=>"error"
 				];
 				return json_encode($alerta);
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$apellido)){
+		    if($this->verificarDatos("[0-9]{1,5}",$apellido)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
-					"texto"=>"El APELLIDO no coincide con el formato solicitado",
+					"texto"=>"El PAIS no coincide con el formato solicitado",
 					"icono"=>"error"
 				];
 				return json_encode($alerta);
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,30}",$provincia)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ\ ]{4,30}",$provincia)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -512,7 +527,7 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{4,30}",$ciudad)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ\ ]{4,30}",$ciudad)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -523,7 +538,7 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ().,#\- ]{4,70}",$direccion)){
+		    if($this->verificarDatos("[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\.\,\-\#\(\)]{4,150}",$direccion)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -535,7 +550,7 @@
 		    }
 
 		    if($telefono!=""){
-		    	if($this->verificarDatos("[0-9()+]{8,20}",$telefono)){
+		    	if($this->verificarDatos("[0-9\(\)\+\s]{8,20}",$telefono)){
 			    	$alerta=[
 						"tipo"=>"simple",
 						"titulo"=>"Ocurrió un error inesperado",
@@ -618,7 +633,7 @@
 				],
 				[
 					"campo_nombre"=>"cliente_apellido",
-					"campo_marcador"=>":Apellido",
+					"campo_marcador"=>":Pais",
 					"campo_valor"=>$apellido
 				],
 				[
@@ -658,14 +673,14 @@
 				$alerta=[
 					"tipo"=>"recargar",
 					"titulo"=>"Cliente actualizado",
-					"texto"=>"Los datos del cliente ".$datos['cliente_nombre']." ".$datos['cliente_apellido']." se actualizaron correctamente",
+					"texto"=>"Los datos del cliente ".$datos['cliente_nombre']." se actualizaron correctamente",
 					"icono"=>"success"
 				];
 			}else{
 				$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
-					"texto"=>"No hemos podido actualizar los datos del cliente ".$datos['cliente_nombre']." ".$datos['cliente_apellido'].", por favor intente nuevamente",
+					"texto"=>"No hemos podido actualizar los datos del cliente ".$datos['cliente_nombre'].", por favor intente nuevamente",
 					"icono"=>"error"
 				];
 			}

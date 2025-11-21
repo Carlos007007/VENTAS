@@ -1,0 +1,82 @@
+services:
+  pdv:
+    container_name: pdv
+    image: zerodaymx/apachephp74
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/angel/virtualwork/tienda/web:/app:rw
+      - /home/angel/virtualwork/tienda/data/clientes:/app/clientes:rw
+      - /home/angel/virtualwork/tienda/data/uploads:/app/uploads:rw
+      - /home/angel/virtualwork/tienda/data/sessions/core:/var/lib/php/session:rw
+      - /home/angel/virtualwork/tienda/web/tmp:/app/tmp:rw
+      - /home/angel/virtualwork/tienda/data/tmp:/tmp:rw
+    environment:
+      - VIRTUAL_HOST=localhost
+      - LETSENCRYPT_HOST=localhos
+      - LETSENCRYPT_EMAIL=soporte@0day.com.mx
+    networks:
+      - mired
+  db:
+    image: mariadb
+    container_name: db
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=gratis123
+      - MYSQL_DATABASE=tienda
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=gratis123
+    volumes:
+      - /home/angel/virtualwork/tienda/db/db:/var/lib/mysql
+      - /home/angel/virtualwork/tienda/respaldos:/respaldo:rw
+      - /home/angel/virtualwork/tienda/config/my.cnf:/etc/mysql/my.cnf:rw
+      - /home/angel/virtualwork/tienda/logs:/db_logs:rw
+    networks:
+      - mired
+  dbadmin:
+    container_name: dbadmin
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_ARBITRARY=1
+      - MEMORY=512M
+      - UPLOAD=2048K
+      - VIRTUAL_HOST=localhost
+    networks:
+      - mired
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - /home/angel/virtualwork/home/angel/virtualwork/tienda/redis:/data:rw
+    networks:
+      - mired
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - /home/angel/virtualwork/home/angel/virtualwork/tienda/rabbit:/var/lib/rabbitmq/mnesia:rw
+      - /home/angel/virtualwork/home/angel/virtualwork/tienda/config/rabbit.conf:/etc/rabbitmq/conf.d/rabbit.conf:rw
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=gratis123
+    networks:
+      - mired
+
+networks:
+  mired:

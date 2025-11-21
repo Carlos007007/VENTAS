@@ -66,7 +66,7 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave1) || $this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave2)){
+		    if($this->verificarDatos("[a-zA-Z0-9\$\@\.\-\#\_\,]{7,100}",$clave1) || $this->verificarDatos("[a-zA-Z0-9\$\@\.\-\#\_\,]{7,100}",$clave2)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -531,7 +531,7 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$admin_clave)){
+		    if($this->verificarDatos("[a-zA-Z0-9\$\@\.\-\#\_\,]{7,100}",$admin_clave)){
 		    	$alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -553,7 +553,7 @@
 		    		$alerta=[
 						"tipo"=>"simple",
 						"titulo"=>"Ocurrió un error inesperado",
-						"texto"=>"USUARIO o CLAVE de administrador incorrectos",
+						"texto"=>"USUARIO o CLAVE de administrador incorrectos 1",
 						"icono"=>"error"
 					];
 					return json_encode($alerta);
@@ -563,7 +563,7 @@
 		        $alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
-					"texto"=>"USUARIO o CLAVE de administrador incorrectos",
+					"texto"=>"USUARIO o CLAVE de administrador incorrectos 2 [".$admin_usuario."]",
 					"icono"=>"error"
 				];
 				return json_encode($alerta);
@@ -595,7 +595,7 @@
 		    }
 
 		    # Verificando integridad de los datos #
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$nombre)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ\ ]{3,40}",$nombre)){
 		        $alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -606,7 +606,7 @@
 		        exit();
 		    }
 
-		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}",$apellido)){
+		    if($this->verificarDatos("[a-zA-ZáéíóúÁÉÍÓÚñÑ\ ]{3,40}",$apellido)){
 		        $alerta=[
 					"tipo"=>"simple",
 					"titulo"=>"Ocurrió un error inesperado",
@@ -656,12 +656,12 @@
 
             # Verificando claves #
             if($clave1!="" || $clave2!=""){
-            	if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave1) || $this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave2)){
+            	if($this->verificarDatos("[a-zA-Z0-9\$\@\.\-\#\_\,]{7,100}",$clave1) || $this->verificarDatos("[a-zA-Z0-9\$\@\.\-\#\_\,]{7,100}",$clave2)){
 
 			        $alerta=[
 						"tipo"=>"simple",
 						"titulo"=>"Ocurrió un error inesperado",
-						"texto"=>"Las CLAVES no coinciden con el formato solicitado",
+						"texto"=>"Las CLAVES no coinciden con el formato solicitado. De 7 a 100 caracteres, permitidos: a-zA-Z0-9$@.-#_,",
 						"icono"=>"error"
 					];
 					return json_encode($alerta);
@@ -672,7 +672,7 @@
 						$alerta=[
 							"tipo"=>"simple",
 							"titulo"=>"Ocurrió un error inesperado",
-							"texto"=>"Las nuevas CLAVES que acaba de ingresar no coinciden, por favor verifique e intente nuevamente",
+							"texto"=>"Las nuevas CLAVES que acaba de ingresar no coinciden, por favor verifique e intente nuevamente.",
 							"icono"=>"error"
 						];
 						return json_encode($alerta);

@@ -9,6 +9,20 @@
 
 		<input type="hidden" name="modulo_cliente" value="registrar">
 
+	<?php
+	
+		$datos=$insLogin->seleccionarDatos("Normal","pais", "ID,NOMBRE", NULL);
+		$defaultPais=$insLogin->seleccionarDatos("Unico","pais", "ID", PAIS);
+
+		if($datos->rowCount()==1){
+			$datos=$datos->fetch();
+		}
+
+		if($defaultPais->rowCount()==1){
+			$defaultPais=$defaultPais->fetch();
+		}
+	?>
+
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
@@ -33,14 +47,24 @@
 		<div class="columns">
 		  	<div class="column">
 		    	<div class="control">
-					<label>Nombres <?php echo CAMPO_OBLIGATORIO; ?></label>
-				  	<input class="input" type="text" name="cliente_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
+					<label>Nombre o Raz&oacute;n Social <?php echo CAMPO_OBLIGATORIO; ?></label>
+				  	<input class="input" type="text" name="cliente_nombre" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,100}" maxlength="40" required >
 				</div>
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Apellidos <?php echo CAMPO_OBLIGATORIO; ?></label>
-				  	<input class="input" type="text" name="cliente_apellido" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
+					<label>Pais <?php echo CAMPO_OBLIGATORIO; ?></label>
+				  	<select class="input" name="cliente_apellido" pattern="[0-9]{1,5}" maxlength="5" required >
+				  		<?php 
+				  			echo '<option value="'. $defaultPais["id"]. '">'. $defaultPais["nombre"]. '</option>';
+				  		?>
+				  		<option value="0">-- Indique el Pais</option>
+				  		<?php
+				  		foreach( $datos as $k=>$v ) {
+				  			echo '<option value="'. $v["ID"]. '">'. $v["NOMBRE"]. '</option>';
+				  		}
+				  		?>
+				  	</select>
 				</div>
 		  	</div>
 		</div>

@@ -357,6 +357,16 @@
 							</a>
 						</li>
 						<li class="full-width">
+							<a href="<?php echo APP_URL."facturaElectronica/"; ?>" class="full-width">
+								<div class="navLateral-body-cl">
+									<i class="fas fa-file-invoice-dollar fa-fw"></i>
+								</div>
+								<div class="navLateral-body-cr">
+									Factura Electr&oacute;nica
+								</div>
+							</a>
+						</li>
+						<li class="full-width">
 							<a href="<?php echo APP_URL."userPhoto/".$_SESSION['id']."/"; ?>" class="full-width">
 								<div class="navLateral-body-cl">
 									<i class="fas fa-camera"></i>

@@ -1,6 +1,6 @@
 <?php
 
-	const DB_SERVER="localhost";
-	const DB_NAME="ventas";
-	const DB_USER="root";
-	const DB_PASS='';
+	const DB_SERVER="__DB_SERVER__";
+	const DB_NAME="__DB_NAME__";
+	const DB_USER="__DB_USER__";
+	const DB_PASS='__DB_PASS__';

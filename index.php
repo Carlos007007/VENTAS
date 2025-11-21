@@ -5,6 +5,7 @@
 
     /*---------- Iniciando sesion ----------*/
     require_once "./app/views/inc/session_start.php";
+    require_once "./modulos/modulos.php";
 
     if(isset($_GET['views'])){
         $url=explode("/", $_GET['views']);

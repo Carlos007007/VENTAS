@@ -32,7 +32,7 @@
 			    }else{
 
 			    	# Verificando integridad de los datos #
-				    if($this->verificarDatos("[a-zA-Z0-9$@.-]{7,100}",$clave)){
+				    if($this->verificarDatos("[a-zA-Z0-9\$\@\.\-\#\_\,]{7,100}",$clave)){
 						echo '<article class="message is-danger">
 						  <div class="message-body">
 						    <strong>Ocurrió un error inesperado</strong><br>

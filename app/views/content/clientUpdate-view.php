@@ -11,12 +11,22 @@
 		$id=$insLogin->limpiarCadena($url[1]);
 
 		$datos=$insLogin->seleccionarDatos("Unico","cliente","cliente_id",$id);
+		$datosPaises=$insLogin->seleccionarDatos("Normal","pais", "ID,NOMBRE", NULL);
 
 		if($datos->rowCount()==1){
 			$datos=$datos->fetch();
+
+		if($datosPaises->rowCount()==1){
+			$datosPaises=$datosPaises->fetch();
+		}
+
+		$defaultPais=$insLogin->seleccionarDatos("Unico","pais", "ID", $datos["cliente_apellido"]);
+		if($defaultPais->rowCount()==1){
+			$defaultPais=$defaultPais->fetch();
+		}		
 	?>
 
-	<h2 class="title has-text-centered"><?php echo $datos['cliente_nombre']." ".$datos['cliente_apellido']." (".$datos['cliente_tipo_documento'].": ".$datos['cliente_numero_documento'].")"; ?></h2>
+	<h2 class="title has-text-centered"><?php echo $datos['cliente_nombre']." (".$datos['cliente_tipo_documento'].": ".$datos['cliente_numero_documento'].")"; ?></h2>
 
 	<form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/clienteAjax.php" method="POST" autocomplete="off" >
 
@@ -52,8 +62,18 @@
 		  	</div>
 		  	<div class="column">
 		    	<div class="control">
-					<label>Apellidos <?php echo CAMPO_OBLIGATORIO; ?></label>
-				  	<input class="input" type="text" name="cliente_apellido" value="<?php echo $datos['cliente_apellido']; ?>" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{3,40}" maxlength="40" required >
+					<label>Pais <?php echo CAMPO_OBLIGATORIO; ?></label>
+				  	<select class="input" type="text" name="cliente_apellido" value="<?php echo $datos['cliente_apellido']; ?>" pattern="[0-9]{1,5}" maxlength="5" required >
+				  		<?php 
+				  			echo '<option value="'. $defaultPais["id"]. '">'. $defaultPais["nombre"]. '</option>';
+				  		?>
+				  		<option value="0">-- Indique el Pais</option>
+				  		<?php
+				  		foreach( $datosPaises as $k=>$v ) {
+				  			echo '<option value="'. $v["ID"]. '">'. $v["NOMBRE"]. '</option>';
+				  		}
+				  		?>
+				  	</select>
 				</div>
 		  	</div>
 		</div>
