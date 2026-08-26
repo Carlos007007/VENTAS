@@ -6,7 +6,7 @@
 	
 	use app\controllers\productController;
 
-	if(isset($_POST['modulo_producto'])){
+	if(isset($_POST['modulo_producto']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insProducto = new productController();
 

@@ -6,7 +6,7 @@
 	
 	use app\controllers\userController;
 
-	if(isset($_POST['modulo_usuario'])){
+	if(isset($_POST['modulo_usuario']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insUsuario = new userController();
 

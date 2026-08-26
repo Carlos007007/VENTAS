@@ -28,7 +28,7 @@ formularios_ajax.forEach(formularios => {
                 let config={
                     method: method,
                     headers: encabezados,
-                    mode: 'cors',
+                    mode: 'same-origin',
                     cache: 'no-cache',
                     body: data
                 };

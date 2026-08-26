@@ -6,7 +6,7 @@
 	
 	use app\controllers\categoryController;
 
-	if(isset($_POST['modulo_categoria'])){
+	if(isset($_POST['modulo_categoria']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insCategory = new categoryController();
 

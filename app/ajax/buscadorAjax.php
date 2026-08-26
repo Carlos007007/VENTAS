@@ -6,7 +6,7 @@
 	
 	use app\controllers\searchController;
 
-	if(isset($_POST['modulo_buscador'])){
+	if(isset($_POST['modulo_buscador']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insBuscador = new searchController();
 

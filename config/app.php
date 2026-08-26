@@ -3,6 +3,7 @@
 	const APP_URL="http://localhost/VENTAS/";
 	const APP_NAME="VENTAS";
 	const APP_SESSION_NAME="POS";
+	const TIEMPO_SESION = 2700; // Tiempo de expiración de la sesión por inactividad (45 minutos)
 
 	/*----------  Tipos de documentos  ----------*/
 	const DOCUMENTOS_USUARIOS=["DUI","DNI","Cedula","Licencia","Pasaporte","Otro"];

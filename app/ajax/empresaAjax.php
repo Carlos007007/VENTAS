@@ -6,7 +6,7 @@
 	
 	use app\controllers\companyController;
 
-	if(isset($_POST['modulo_empresa'])){
+	if(isset($_POST['modulo_empresa']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insEmpresa = new companyController();
 

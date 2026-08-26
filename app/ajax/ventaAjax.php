@@ -6,7 +6,7 @@
 	
 	use app\controllers\saleController;
 
-	if(isset($_POST['modulo_venta'])){
+	if(isset($_POST['modulo_venta']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insVenta = new saleController();
 

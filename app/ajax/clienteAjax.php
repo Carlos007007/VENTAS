@@ -6,7 +6,7 @@
 	
 	use app\controllers\clientController;
 
-	if(isset($_POST['modulo_cliente'])){
+	if(isset($_POST['modulo_cliente']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insCliente = new clientController();
 

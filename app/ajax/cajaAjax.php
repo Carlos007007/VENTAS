@@ -6,7 +6,7 @@
 	
 	use app\controllers\cashierController;
 
-	if(isset($_POST['modulo_caja'])){
+	if(isset($_POST['modulo_caja']) && $_SERVER['REQUEST_METHOD'] === 'POST'){
 
 		$insCaja = new cashierController();
 
